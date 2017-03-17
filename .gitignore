@@ -1,0 +1,10 @@
+target
+.idea
+*.iml
+*.ipr
+*.iws
+.DS_Store
+.project
+.settings
+*.ignore
+atlassian-ide-plugin.xml
