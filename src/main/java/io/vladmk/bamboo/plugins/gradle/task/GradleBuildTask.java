@@ -11,13 +11,15 @@ import com.atlassian.bamboo.utils.SystemProperty;
 import com.atlassian.bamboo.v2.build.CurrentBuildResult;
 import com.atlassian.bamboo.v2.build.agent.capability.CapabilityContext;
 import com.atlassian.utils.process.ExternalProcess;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+@Slf4j
 public class GradleBuildTask implements TaskType
 {
-  @SuppressWarnings( "unused" )
-  private static final Logger log = Logger.getLogger( GradleBuildTask.class );
+//  @SuppressWarnings( "unused" )
+//  private static final Logger log = Logger.getLogger( GradleBuildTask.class );
   // ------------------------------------------------------------------------------------------------------- Constants
   private static final String BUILD_SUCCESSFUL_MARKER = SystemProperty.BUILD_SUCCESSFUL_MARKER.getValue( "[success]" );
   private static final String BUILD_FAILED_MARKER = SystemProperty.BUILD_FAILED_MARKER.getValue( "[error]" );
@@ -68,7 +70,7 @@ public class GradleBuildTask implements TaskType
         new ExternalProcessBuilder()
           .workingDirectory( config.getWorkingDirectory() )
           .env( config.getExtraEnvironment() )
-          .command( config.getCommandline() )
+          .command( config.getCommandline( capabilityContext.getCapabilitySet()) )
       );
 
       if ( externalProcess.getHandler().isComplete() )

@@ -4,16 +4,18 @@ import com.atlassian.bamboo.task.TaskContext;
 import com.atlassian.bamboo.task.plugins.TaskProcessCommandDecorator;
 import com.atlassian.bamboo.utils.SystemProperty;
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.List;
 
+@Slf4j
 public class IsolatedTmpDirCommandDecorator implements TaskProcessCommandDecorator
 {
-    @SuppressWarnings("UnusedDeclaration")
-    private static final Logger log = Logger.getLogger(IsolatedTmpDirCommandDecorator.class);
+//    @SuppressWarnings("UnusedDeclaration")
+//    private static final Logger log = Logger.getLogger(IsolatedTmpDirCommandDecorator.class);
 
     @NotNull
     @Override

@@ -34,11 +34,14 @@ public class GradleBuildTaskConfigurator extends AbstractTaskConfigurator implem
 
     private static final List<String> FIELDS_TO_COPY = Arrays.asList(
             GradleConfig.CFG_BUILD_FILE,
-            GradleConfig.CFG_TARGETS
+            GradleConfig.CFG_TARGETS,
+            GradleConfig.CFG_PROPERTIES,
+            GradleConfig.CFG_COMPILER_CHECKED,
+            GradleConfig.CFG_JDK_COMPILER_LABEL
     );
 
     private static final String DEFAULT_TARGET = "clean test";
-    private static final String DEFAULT_TEST_RESULTS_PATTERN =  "**/test-reports/*.xml";
+    private static final String DEFAULT_TEST_RESULTS_PATTERN =  "**/test-results/test/*.xml";
     // ------------------------------------------------------------------------------------------------- Type Properties
     // ---------------------------------------------------------------------------------------------------- Dependencies
     private TextProvider textProvider;
@@ -87,11 +90,14 @@ public class GradleBuildTaskConfigurator extends AbstractTaskConfigurator implem
     {
         super.populateContextForCreate(context);
         context.put( GradleConfig.CFG_TARGETS, DEFAULT_TARGET);
+        context.put( GradleConfig.CFG_PROPERTIES, "");
+        context.put( GradleConfig.CFG_COMPILER_CHECKED, Boolean.FALSE);
         context.put(TaskConfigConstants.CFG_TEST_RESULTS_FILE_PATTERN, DEFAULT_TEST_RESULTS_PATTERN);
         context.put(TaskConfigConstants.CFG_HAS_TESTS_BOOLEAN, Boolean.TRUE);
         context.put(TaskConfigConstants.CFG_HAS_TESTS, Boolean.TRUE);
         context.put(CTX_UI_CONFIG_SUPPORT, uiConfigSupport);
         context.put(TaskConfigConstants.CFG_JDK_LABEL, uiConfigSupport.getDefaultJdkLabel());
+        context.put( GradleConfig.CFG_JDK_COMPILER_LABEL, uiConfigSupport.getDefaultJdkLabel());
     }
 
     public void validate(@NotNull final ActionParametersMap params, @NotNull final ErrorCollection errorCollection)

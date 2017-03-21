@@ -3,13 +3,13 @@
   <plugin-info>
     <description>${pom.description}</description>
     <version>${pom.version}</version>
-    <vendor name="${pom.organization.name}" url="${pom.organization.url}"/>
+    <vendor name="Vlad's plugins" url="http://vlad-mk.github.io"/>
   </plugin-info>
 
   <resource type="i18n" name="i18n" location="io.vladmk.bamboo.plugins.gradle.i18n"/>
 
-  <taskType key="gradle" name="SBT Task" class="io.vladmk.bamboo.plugins.gradle.task.GradleBuildTask">
-    <description>Simple Build Tool for Scala</description>
+  <taskType key="gradle" name="Gradle Task" class="io.vladmk.bamboo.plugins.gradle.task.GradleBuildTask">
+    <description>Simple Build Tool for gradle projects</description>
     <category name="builder"/>
     <executable key="gradle" nameKey="gradle.executable" pathHelpKey="gradle.helpPath" primaryCapabilityProvider="true"/>
     <configuration class="io.vladmk.bamboo.plugins.gradle.task.configuration.GradleBuildTaskConfigurator" />
