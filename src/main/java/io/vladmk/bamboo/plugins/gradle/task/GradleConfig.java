@@ -14,7 +14,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+
+import static io.vladmk.bamboo.plugins.gradle.task.configuration.GradleBuildTaskConfigurator.DEFAULT_WRAPPER;
 
 @Slf4j
 public class GradleConfig
@@ -32,7 +36,13 @@ public class GradleConfig
   public static final String CFG_COMPILER_CHECKED = "compilerChecked";
   public static final String CFG_JDK_COMPILER_LABEL = "compileJdk";
   public static final String CFG_JAVAC_GRADLE_VARIABLE = "-PjavaCompiler=\"%s\"";
+  public static final String CFG_BOOT_CP_GRADLE_VARIABLE = "-PbootClasspath=\"%s\"";
   protected static final String CFG_TEST_RESULTS_FILE_PATTERN = TaskConfigConstants.CFG_TEST_RESULTS_FILE_PATTERN;
+
+  public static final String CFG_WRAPPER_CHECKED = "wrapperChecked";
+  public static final String CFG_WRAPPER_EXECUTABLE = "gradlewExecutable";
+
+  public static final String CFG_GRADLE_USER_HOME = "gradleUserHome";
 
 
   public static final String GRADLE_CAPABILITY_PREFIX = CapabilityDefaultsHelper.CAPABILITY_BUILDER_PREFIX + ".gradle";
@@ -53,6 +63,12 @@ public class GradleConfig
   protected final String testResultsFilePattern;
   protected final File workingDirectory;
 
+  protected final boolean wrapperChecked;
+  protected final String wrapperExecutable;
+
+  protected final String gradleUserHome;
+
+
   protected final Map<String, String> extraEnvironment = new HashMap<>();
 
 
@@ -62,6 +78,9 @@ public class GradleConfig
   public GradleConfig(@NotNull TaskContext taskContext, @NotNull CapabilityContext capabilityContext, @NotNull EnvironmentVariableAccessor environmentVariableAccessor )
   {
     buildFile = taskContext.getConfigurationMap().get( CFG_BUILD_FILE );
+    gradleUserHome = taskContext.getConfigurationMap().get( CFG_GRADLE_USER_HOME );
+    if(StringUtils.isNotBlank(gradleUserHome))
+      extraEnvironment.put( "GRADLE_USER_HOME", gradleUserHome );
 
     targets = CommandlineStringUtils.tokeniseCommandline( StringUtils.replaceChars( taskContext.getConfigurationMap().get( CFG_TARGETS ), "\r\n", "  " ) );
 
@@ -70,8 +89,19 @@ public class GradleConfig
     else
       properies = null;
 
-    builderLabel = Preconditions.checkNotNull( taskContext.getConfigurationMap().get( CFG_BUILDER_LABEL ), "Builder label is not defined" );
-    builderPath = Preconditions.checkNotNull( capabilityContext.getCapabilityValue( GRADLE_CAPABILITY_PREFIX + "." + builderLabel ), "Builder path is not defined" );
+    wrapperChecked = taskContext.getConfigurationMap().getAsBoolean(CFG_WRAPPER_CHECKED);
+    if(!wrapperChecked) {
+      builderLabel = Preconditions.checkNotNull(taskContext.getConfigurationMap().get(CFG_BUILDER_LABEL), "Builder label is not defined");
+      builderPath = Preconditions.checkNotNull(capabilityContext.getCapabilityValue(GRADLE_CAPABILITY_PREFIX + "." + builderLabel), "Builder path is not defined");
+      wrapperExecutable = taskContext.getConfigurationMap().get( CFG_WRAPPER_EXECUTABLE );
+      extraEnvironment.put( "GRADLE_HOME", builderPath );
+    } else {
+      builderLabel = taskContext.getConfigurationMap().get(CFG_BUILDER_LABEL);
+      builderPath = capabilityContext.getCapabilityValue(GRADLE_CAPABILITY_PREFIX + "." + builderLabel);
+//      wrapperExecutable = Preconditions.checkNotNull(taskContext.getConfigurationMap().get( CFG_WRAPPER_EXECUTABLE ), "Builder wrapper is not defined");
+      String wrapperExecutable = taskContext.getConfigurationMap().get( CFG_WRAPPER_EXECUTABLE );
+      this.wrapperExecutable = StringUtils.isNotBlank(wrapperExecutable) ? wrapperExecutable : DEFAULT_WRAPPER ;
+    }
 
     environmentVariables = taskContext.getConfigurationMap().get( CFG_ENVIRONMENT_VARIABLES );
     hasTests = taskContext.getConfigurationMap().getAsBoolean( CFG_HAS_TESTS );
@@ -83,7 +113,6 @@ public class GradleConfig
 
     // set extraEnvironment
     extraEnvironment.putAll( environmentVariableAccessor.splitEnvironmentAssignments( environmentVariables, false ) );
-    extraEnvironment.put( "GRADLE_HOME", builderPath );
   }
 
   // ----------------------------------------------------------------------------------------------- Interface Methods
@@ -133,12 +162,19 @@ public class GradleConfig
     }
   }
 
+  public static String getWrapperPath(String currentDir, String wrapperExecutable) {
+    return StringUtils.join( new String[]{ currentDir, wrapperExecutable }, File.separator );
+  }
+
 
   public List<String> getCommandline(ReadOnlyCapabilitySet capabilitySet)
   {
     final List<String> arguments = new ArrayList<>();
 
-    arguments.add( getGradleExecutablePath( builderPath ) );
+    if(!wrapperChecked)
+      arguments.add( getGradleExecutablePath( builderPath ) );
+    else
+      arguments.add( getWrapperPath(".", wrapperExecutable ));
 
     if ( StringUtils.isNotEmpty( buildFile ) )
     {
@@ -162,6 +198,16 @@ public class GradleConfig
           arguments.add(String.format(CFG_JAVAC_GRADLE_VARIABLE, javacPath));
         } else
           log.error("javac path not found in: {}", compileJdkLabel);
+
+        Path rtPath = Paths.get(jdkPath, "jre", "lib", "rt.jar");
+//        String rtJar = StringUtils.join(new String[]{jdkPath, "jre", "lib", "rt.jar"}, File.separator);
+        File rt = rtPath.toFile();
+        if(rt.exists() && rt.isFile())
+          arguments.add(String.format(CFG_BOOT_CP_GRADLE_VARIABLE, rtPath.toString()));
+        else
+          log.error("rt.jar not found in: {}", rtPath.toString());
+
+
       }
     }
 

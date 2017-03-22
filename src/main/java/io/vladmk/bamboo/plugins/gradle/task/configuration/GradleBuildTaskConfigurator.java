@@ -37,10 +37,14 @@ public class GradleBuildTaskConfigurator extends AbstractTaskConfigurator implem
             GradleConfig.CFG_TARGETS,
             GradleConfig.CFG_PROPERTIES,
             GradleConfig.CFG_COMPILER_CHECKED,
-            GradleConfig.CFG_JDK_COMPILER_LABEL
+            GradleConfig.CFG_JDK_COMPILER_LABEL,
+            GradleConfig.CFG_WRAPPER_CHECKED,
+            GradleConfig.CFG_WRAPPER_EXECUTABLE,
+            GradleConfig.CFG_GRADLE_USER_HOME
     );
 
     private static final String DEFAULT_TARGET = "clean test";
+    public static final String DEFAULT_WRAPPER = "gradlew";
     private static final String DEFAULT_TEST_RESULTS_PATTERN =  "**/test-results/test/*.xml";
     // ------------------------------------------------------------------------------------------------- Type Properties
     // ---------------------------------------------------------------------------------------------------- Dependencies
@@ -98,6 +102,9 @@ public class GradleBuildTaskConfigurator extends AbstractTaskConfigurator implem
         context.put(CTX_UI_CONFIG_SUPPORT, uiConfigSupport);
         context.put(TaskConfigConstants.CFG_JDK_LABEL, uiConfigSupport.getDefaultJdkLabel());
         context.put( GradleConfig.CFG_JDK_COMPILER_LABEL, uiConfigSupport.getDefaultJdkLabel());
+
+        context.put( GradleConfig.CFG_WRAPPER_CHECKED, Boolean.FALSE);
+        context.put( GradleConfig.CFG_WRAPPER_EXECUTABLE, DEFAULT_WRAPPER);
     }
 
     public void validate(@NotNull final ActionParametersMap params, @NotNull final ErrorCollection errorCollection)

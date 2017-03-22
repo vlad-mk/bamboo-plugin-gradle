@@ -1,12 +1,24 @@
 [#-- @ftlvariable name="uiConfigSupport" type="com.atlassian.bamboo.ww2.actions.build.admin.create.UIConfigSupport" --]
 
-[#assign addExecutableLink][@ui.displayAddExecutableInline executableKey='gradle'/][/#assign]
-[@ww.select cssClass="builderSelectWidget" labelKey='executable.type' name='label'
-    list=uiConfigSupport.getExecutableLabels('gradle')
-    extraUtility=addExecutableLink /]
-
-[#--[@ww.textfield labelKey='builder.gradle.buildFile' name='buildFile' cssClass="long-field" /]--]
 [@ww.textfield labelKey='builder.gradle.target' name='target' required='true' cssClass="long-field" /]
+
+[#assign addExecutableLink][@ui.displayAddExecutableInline executableKey='gradle'/][/#assign]
+
+[@ww.checkbox labelKey='builder.gradle.gradlew.checked' name='wrapperChecked' toggle='true'/]
+
+[@ui.bambooSection dependsOn='wrapperChecked' showOn='false']
+    [@ww.select cssClass="builderSelectWidget" labelKey='executable.type' name='label'
+        list=uiConfigSupport.getExecutableLabels('gradle') required='true'
+        extraUtility=addExecutableLink /]
+[/@ui.bambooSection]
+
+[@ui.bambooSection dependsOn='wrapperChecked' showOn='true']
+    [@ww.textfield labelKey='builder.gradle.gradlew.executable' name='gradlewExecutable' required='true' cssClass="long-field" /]
+[/@ui.bambooSection]
+
+[@ww.textfield labelKey='bulder.gradle.user.home' name='gradleUserHome' cssClass="long-field" /]
+
+[@ww.textfield labelKey='builder.gradle.buildFile' name='buildFile' cssClass="long-field" /]
 
 [@ww.textarea labelKey='builder.gradle.properties' name='properties' rows='4' required='false' cssClass="long-field" /]
 
