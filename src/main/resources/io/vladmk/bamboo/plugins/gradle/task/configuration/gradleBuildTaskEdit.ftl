@@ -26,6 +26,7 @@
     [@ww.select labelKey='builder.gradle.compileJDK' name='compileJdk'
         cssClass="jdkSelectWidget"
         list=uiConfigSupport.jdkLabels required='true'
+        helpDialogKey='builder.gradle.compilerhelp'
         extraUtility=addJdkLink]
     [/@ww.select]
 
@@ -35,7 +36,8 @@
 
 
 [@ww.textfield labelKey='builder.common.env' name='environmentVariables' cssClass="long-field" /]
-[@ww.textfield labelKey='builder.common.sub' name='workingSubDirectory' helpUri='working-directory.ftl' cssClass="long-field" /]
+[@ww.textfield labelKey='builder.common.sub' name='workingSubDirectory' cssClass="long-field" /]
+[#--[@ww.textfield labelKey='builder.common.sub' name='workingSubDirectory' helpUri='working-directory.ftl' cssClass="long-field" /]--]
 
 [@ui.bambooSection titleKey='builder.common.tests.directory.description']
     [@ww.checkbox labelKey='builder.common.tests.exists' name='testChecked' toggle='true'/]
