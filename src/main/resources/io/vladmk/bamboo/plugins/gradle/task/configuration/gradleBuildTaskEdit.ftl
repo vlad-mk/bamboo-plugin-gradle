@@ -13,7 +13,7 @@
 [/@ui.bambooSection]
 
 [@ui.bambooSection dependsOn='wrapperChecked' showOn='true']
-    [@ww.textfield labelKey='builder.gradle.gradlew.executable' name='gradlewExecutable' required='true' cssClass="long-field" /]
+    [@ww.textfield labelKey='builder.gradle.gradlew.executable' name='gradlewExecutable' required='false' cssClass="long-field" /]
 [/@ui.bambooSection]
 
 [@ww.textfield labelKey='bulder.gradle.user.home' name='gradleUserHome' cssClass="long-field" /]

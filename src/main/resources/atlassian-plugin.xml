@@ -3,13 +3,15 @@
   <plugin-info>
     <description>${pom.description}</description>
     <version>${pom.version}</version>
-    <vendor name="Vlad" url="http://vlad-mk.github.io"/>
+    <vendor name="Vlad Mikerin" url="http://vlad-mk.github.io"/>
+    <param name="vendor-icon">images/gradle-16x16.png</param>
+    <param name="plugin-icon">images/gradle-16x16.png</param>
   </plugin-info>
 
   <resource type="i18n" name="i18n" location="io.vladmk.bamboo.plugins.gradle.i18n"/>
 
   <taskType key="gradle" name="Gradle Task" class="io.vladmk.bamboo.plugins.gradle.task.GradleBuildTask">
-    <description>Simple Build Tool for gradle projects</description>
+    <description>Build Tool for gradle projects</description>
     <category name="builder"/>
     <executable key="gradle" nameKey="gradle.executable" pathHelpKey="gradle.helpPath" primaryCapabilityProvider="true"/>
     <configuration class="io.vladmk.bamboo.plugins.gradle.task.configuration.GradleBuildTaskConfigurator" />
