@@ -3,7 +3,7 @@
   <plugin-info>
     <description>${pom.description}</description>
     <version>${pom.version}</version>
-    <vendor name="Vlad Mikerin" url="http://vlad-mk.github.io"/>
+    <vendor name="Vlad Mikerin" url="https://github.com/vlad-mk/bamboo-plugin-gradle"/>
     <param name="vendor-icon">images/gradle-16x16.png</param>
     <param name="plugin-icon">images/gradle-16x16.png</param>
   </plugin-info>

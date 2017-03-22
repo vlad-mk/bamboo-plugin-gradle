@@ -7,14 +7,14 @@
     <version>4.0.23</version>
   </parent>
 
-  <groupId>io.vladmk.bamboo.plugins.gradle</groupId>
+  <groupId>io.vladmk</groupId>
   <artifactId>bamboo-plugin-gradle</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>atlassian-plugin</packaging>
 
   <name>Bamboo Gradle Task Plugin</name>
   <description>Gradle Builder Task For Bamboo</description>
-  <url>https://gitlab.com/vlad-mk/bamboo-plugin-gradle</url>
+  <url>https://github.com/vlad-mk/bamboo-plugin-gradle</url>
 
   <licenses>
     <license>
@@ -24,9 +24,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:ssh://git@gitlab.com:vlad-mk/bamboo-plugin-gradle.git</connection>
-    <developerConnection>scm:git:ssh://git@gitlab.com:vlad-mk/bamboo-plugin-gradle.git</developerConnection>
-    <url>https://gitlab.com/vlad-mk/bamboo-plugin-gradle</url>
+    <connection>scm:git:ssh://git@github.com/vlad-mk/bamboo-plugin-gradle.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/vlad-mk/bamboo-plugin-gradle.git</developerConnection>
+    <url>https://github.com/vlad-mk/bamboo-plugin-gradle</url>
 	  <tag>HEAD</tag>
   </scm>
 
