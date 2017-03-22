@@ -1,4 +1,7 @@
 # Bamboo Gradle Plugin #
+
+[![Build Status](https://travis-ci.org/vlad-mk/bamboo-plugin-gradle.svg)](https://travis-ci.org/vlad-mk/bamboo-plugin-gradle)
+
 This plugin integrates [Atlassian Bamboo](http://www.atlassian.com/software/bamboo) with [Gradle](http://www.gradle.org/).
 
 It allows building Gradle projects and parsing test reports from Bamboo.
