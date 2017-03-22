@@ -1,0 +1,31 @@
+<atlassian-plugin key="io.vladmk.bamboo.plugins.gradle" name="${pom.name}" pluginsVersion="2">
+
+  <plugin-info>
+    <description>${pom.description}</description>
+    <version>${pom.version}</version>
+    <vendor name="Vlad Mikerin" url="https://github.com/vlad-mk/bamboo-plugin-gradle"/>
+    <param name="vendor-icon">images/gradle-16x16.png</param>
+    <param name="plugin-icon">images/gradle-16x16.png</param>
+  </plugin-info>
+
+  <resource type="i18n" name="i18n" location="io.vladmk.bamboo.plugins.gradle.i18n"/>
+
+  <taskType key="gradle" name="Gradle Task" class="io.vladmk.bamboo.plugins.gradle.task.GradleBuildTask">
+    <description>Build Tool for gradle projects</description>
+    <category name="builder"/>
+    <executable key="gradle" nameKey="gradle.executable" pathHelpKey="gradle.helpPath" primaryCapabilityProvider="true"/>
+    <configuration class="io.vladmk.bamboo.plugins.gradle.task.configuration.GradleBuildTaskConfigurator" />
+    <capabilityDefaultsHelper class="io.vladmk.bamboo.plugins.gradle.task.GradleCapabilityDefaultsHelper"/>
+    <resource type="freemarker" name="edit" location="io/vladmk/bamboo/plugins/gradle/task/configuration/gradleBuildTaskEdit.ftl"/>
+    <resource type="freemarker" name="view" location="io/vladmk/bamboo/plugins/gradle/task/configuration/gradleBuildTaskView.ftl"/>
+    <resource type="download" name="icon" location="io/vladmk/bamboo/plugins/gradle/gradle-icon.png"/>
+  </taskType>
+
+<!--
+  <taskProcessCommandDecorator key="decorator.isolatedTmpRepository" name="Isolated Tmp Directory Command Decorator"
+                               class="io.vladmk.bamboo.plugins.gradle.decorator.IsolatedTmpDirCommandDecorator">
+      <decoratedTaskType key="task.builder.gradle"/>
+  </taskProcessCommandDecorator>
+-->
+
+</atlassian-plugin>
